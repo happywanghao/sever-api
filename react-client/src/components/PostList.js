@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios'
 import {Link} from 'react-router-dom'
+import moment from 'moment'
 class PostList extends React.Component{
   constructor(){
     super()
@@ -26,7 +27,6 @@ class PostList extends React.Component{
         .then(res=>this.setState({data:res.data.posts}))
         }
       )
-
       this.setState({del:"none"})
     }else if(n==='n'){
       this.setState({del:"none"})
@@ -47,7 +47,7 @@ class PostList extends React.Component{
     let showData
     if(this.state.data){
       showData=[...this.state.data]
-      // showData=showData.sort
+      // showData=showData.sort((a,b)=>())
     }
     return (
       <div>
@@ -58,6 +58,7 @@ class PostList extends React.Component{
             showData.map(item=>(
               <div key={item._id} style={style2}>
                 <div style={style3}>{item.title}</div>
+                <div>创建时间:{moment(item.createdAt).startOf('hour').fromNow()}</div>
                 <div style={style4}>
                   <Link to={`/post/${item._id}`} style={style5}>查看</Link>
                   <Link to={`/post/${item._id}/edit`} style={style6}>编辑</Link>
@@ -67,13 +68,12 @@ class PostList extends React.Component{
             ))
             :null
           }
-
-          <div data-radium="true" style={style8}>
-            <div data-radium="true" style={style9}>
+          <div style={style8}>
+            <div style={style9}>
               <p>确定删除吗？</p>
-              <div data-radium="true" style={style10}>
-                <div data-radium="true" onClick={this.sure.bind(this,"y")} style={style11}>确定</div>
-                <div data-radium="true" onClick={this.sure.bind(this,"n")} style={style11}>取消</div>
+              <div style={style10}>
+                <div onClick={this.sure.bind(this,"y")} style={style11}>确定</div>
+                <div onClick={this.sure.bind(this,"n")} style={style11}>取消</div>
               </div>
             </div>
           </div>
