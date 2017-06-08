@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios'
 import {Link} from 'react-router-dom'
 import moment from 'moment'
+import 'moment/locale/zh-cn'
 class PostList extends React.Component{
   constructor(){
     super()
@@ -44,10 +45,11 @@ class PostList extends React.Component{
     let style9={width:"100%", maxWidth:"350px", height:"100px", padding:"16px", backgroundColor:"rgb(255, 255, 255)", border:"1px solid rgb(221, 221, 221)", borderRadius:"5px", color:"rgb(244, 67, 54)",position:"fixed",margin:"auto", top:"0",  bottom:"0", left:"0",right:"0",}
     let style10={position: "absolute", bottom: "16px", right: "16px",}
     let style11={cursor:"pointer",textDecoration:'none', display: "inline-block", paddingLeft: "10px", paddingRight: "10px", color: "rgb(0, 188, 212)", fontSize: "0.9em",}
+    let style12={opacity:'0.3',fontSize:'6px',position: "absolute", bottom: "16px", left: "16px"}
     let showData
     if(this.state.data){
       showData=[...this.state.data]
-      // showData=showData.sort((a,b)=>())
+      showData.sort((a,b)=>(+a.createdAt.replace(/\D/g,'') < +b.createdAt.replace(/\D/g,'')))
     }
     return (
       <div>
@@ -58,7 +60,7 @@ class PostList extends React.Component{
             showData.map(item=>(
               <div key={item._id} style={style2}>
                 <div style={style3}>{item.title}</div>
-                <div>创建时间:{moment(item.createdAt).startOf('hour').fromNow()}</div>
+                <div style={style12}>创建时间:{moment(item.createdAt).startOf('minute').fromNow()}</div>
                 <div style={style4}>
                   <Link to={`/post/${item._id}`} style={style5}>查看</Link>
                   <Link to={`/post/${item._id}/edit`} style={style6}>编辑</Link>
